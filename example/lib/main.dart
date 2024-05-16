@@ -1,4 +1,5 @@
 import 'package:device_in/device_in.dart';
+import 'package:example/appWidgetBox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:ui' as ui;
@@ -60,7 +61,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final int _counter = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,26 +77,29 @@ class _MyHomePageState extends State<MyHomePage> {
                 orientation: Orientation.portrait,
                 deviceOccupySize: 900,
                 screen: Container(
-                  color: Colors.white,
+                  // color: Colors.red,
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 60),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: const AssetImage('assets/iphone_wal.png'),
+                      scale: MediaQuery.of(context).devicePixelRatio,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   child: StaggeredGrid.count(
                     crossAxisCount: 4,
-                    mainAxisSpacing: 4,
-                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 20,
                     children: [
                       ...getApplications().map((app) {
-                        if (app.isBigWidget) {
-                          return StaggeredGridTile.count(
-                            crossAxisCellCount: 2,
-                            mainAxisCellCount: 2,
-                            child: app.appEntry,
-                          );
-                        }
-
+                        final cellCount = app.isBigWidget ? 2 : 1;
                         return StaggeredGridTile.count(
-                          crossAxisCellCount: 1,
-                          mainAxisCellCount: 1,
-                          child: app.appEntry,
-                        );
+                            crossAxisCellCount: cellCount,
+                            mainAxisCellCount: cellCount,
+                            child: AppWidgetBox(
+                              appName: app.appName,
+                              iconPath: app.iconImage,
+                            ));
                       }),
                     ],
                   ),
@@ -112,38 +115,65 @@ class _MyHomePageState extends State<MyHomePage> {
       IOSApplications(
         appName: 'App 1',
         isBigWidget: true,
-        appEntry: Container(
-          color: Colors.red,
-        ),
-        iconImage: 'assets/icons/app1.png',
+        appEntry: const Text('App 1'),
+        iconImage: 'assets/appIcons/jufe.png',
       ),
       IOSApplications(
         appName: 'App 2',
         appEntry: Container(
           color: Colors.blue,
+          padding: const EdgeInsets.all(3),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Container(
+                  alignment: Alignment.center,
+                  // image: iconPath == null ? null : "appIcons/$iconPath",
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          spreadRadius: 1,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ]),
+                  child: const FlutterLogo(),
+                  // iconPath == null ? widget : null,
+                ),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              const Text("App 2"),
+            ],
+          ),
         ),
-        iconImage: 'assets/icons/app2.png',
+        iconImage: 'assets/appIcons/projectX.png',
       ),
       IOSApplications(
         appName: 'App 3',
         appEntry: Container(
           color: Colors.green,
         ),
-        iconImage: 'assets/icons/app3.png',
+        iconImage: 'assets/appIcons/remora.png',
       ),
       IOSApplications(
         appName: 'App 4',
         appEntry: Container(
           color: Colors.yellow,
         ),
-        iconImage: 'assets/icons/app4.png',
+        iconImage: 'assets/appIcons/jufe.png',
       ),
       IOSApplications(
         appName: 'App 5',
         appEntry: Container(
           color: Colors.purple,
         ),
-        iconImage: 'assets/icons/app5.png',
+        iconImage: 'assets/appIcons/projectX.png',
       ),
       IOSApplications(
         appName: 'App 6',
@@ -151,35 +181,35 @@ class _MyHomePageState extends State<MyHomePage> {
         appEntry: Container(
           color: Colors.orange,
         ),
-        iconImage: 'assets/icons/app6.png',
+        iconImage: 'assets/appIcons/remora.png',
       ),
       IOSApplications(
         appName: 'App 7',
         appEntry: Container(
           color: Colors.pink,
         ),
-        iconImage: 'assets/icons/app7.png',
+        iconImage: 'assets/appIcons/jufe.png',
       ),
       IOSApplications(
         appName: 'App 8',
         appEntry: Container(
           color: Colors.teal,
         ),
-        iconImage: 'assets/icons/app8.png',
+        iconImage: 'assets/appIcons/projectX.png',
       ),
       IOSApplications(
         appName: 'App 9',
         appEntry: Container(
           color: Colors.brown,
         ),
-        iconImage: 'assets/icons/app9.png',
+        iconImage: 'assets/appIcons/remora.png',
       ),
       IOSApplications(
         appName: 'App 10',
         appEntry: Container(
           color: Colors.grey,
         ),
-        iconImage: 'assets/icons/app10.png',
+        iconImage: 'assets/appIcons/jufe.png',
       ),
     ];
   }
