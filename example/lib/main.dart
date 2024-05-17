@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
       IOSApplications(
         appName: 'App 1',
         isBigWidget: true,
-        appEntry: const Text('App 1'),
+        appEntry: const Text('App 111'),
         iconImage: 'assets/appIcons/jufe.png',
       ),
       IOSApplications(
