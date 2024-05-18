@@ -1,5 +1,7 @@
 import 'package:device_in/device_in.dart';
 import 'package:example/appWidgetBox.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:ui' as ui;
@@ -60,7 +62,241 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  late PageController _pageViewController;
+  late TabController _tabController;
+  List<Widget> pages = [];
+
+  Widget? testWidget;
+
+  /// explaination:
+  /// we will have a list of apps and we have to separate them into pages
+  /// logic:
+  /// [pages] is a map that will hold the pages and the score of the page
+  /// [score] is the score of the page and will be use to know if the page is full or not
+  /// [apps] is the list of apps that will be separated into pages
+  /// during the loop we will check if the app is a big widget or not
+  /// if it is a big widget we will add 4 to the score
+  /// if it is not we will add 1 to the score
+  /// if the app score plus the page score is greater than or equal to 24 we will add the app to the current page index
+  /// if not we will create a new page and add the app to it
+  void separateAppsToPages() {
+    final List<IOSApplications> apps = [
+      ...getApplications(),
+      ...getApplications(),
+      ...getApplications(),
+      ...getApplications(),
+      ...getApplications(),
+      ...getApplications(),
+      ...getApplications(),
+    ];
+    int score = 0;
+    List<IOSApplications> currentPage = [];
+    for (final app in apps) {
+      score += switch (app.isBigWidget) {
+        true => 4,
+        false => 1,
+      };
+      if (score > 24) {
+        score = score - 24;
+        pages.add(_pageGridViewArrangement(apps: currentPage));
+        currentPage = [];
+      }
+      currentPage.add(app);
+    }
+    if (currentPage.isNotEmpty) {
+      pages.add(_pageGridViewArrangement(apps: currentPage));
+    }
+
+    _pageViewController = PageController();
+    _tabController = TabController(length: pages.length, vsync: this);
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Widget _pageGridViewArrangement({required List<IOSApplications> apps}) {
+    return StaggeredGrid.count(
+      crossAxisCount: 4,
+      mainAxisSpacing: 5,
+      crossAxisSpacing: 0,
+      axisDirection: AxisDirection.down,
+      children: [
+        ...apps.map((app) {
+          final cellCount = app.isBigWidget ? 2 : 1;
+          return StaggeredGridTile.count(
+              crossAxisCellCount: cellCount,
+              mainAxisCellCount: cellCount,
+              child: LayoutBuilder(builder: (context, constraints) {
+                final size = constraints.biggest;
+                return AppWidgetBox(
+                  appName: app.appName,
+                  iconPath: app.iconImage,
+                  onTapDown: (onTapDown) {
+                    openApplicationInPhone(size);
+                  },
+                );
+              }));
+        }),
+      ],
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    separateAppsToPages();
+  }
+
+  void _handlePageViewChanged(int currentPageIndex) {
+    _tabController.index = currentPageIndex;
+  }
+
+  AnimationController? controller;
+
+  /// This function open the widget in the semulator with an animation
+  openApplicationInPhone(Size size) {
+    controller = AnimationController(
+        duration: const Duration(milliseconds: 600), vsync: this);
+    Animation<double> curve = CurvedAnimation(
+        parent: controller!, curve: Curves.fastEaseInToSlowEaseOut); //easeOut
+    const page = Scaffold(
+      body: Center(
+        child: Text("Hello World"),
+      ),
+    );
+
+    curve.addListener(() {
+      // isUp = true;
+      bool isVisible = curve.value >= 0.95;
+      //curve.status == AnimationStatus.completed;
+      // print(curve.value);
+      testWidget = _buildTransition(
+        isVisible
+            ? Container(
+                key: const Key("current"),
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                alignment: Alignment.center,
+                child: page,
+              )
+            : Container(
+                key: const Key("replacement"),
+                alignment: Alignment.center,
+                color: Colors.white,
+              ),
+        curve,
+        size,
+      );
+      // openWidgetPhone(
+      //   context: context,
+      //   key: fabKey,
+      //   animation: curve,
+      //   fabOffset: animationOffset,
+      //   child: isVisible
+      //       ? c(
+      //           key: const Key("current"),
+      //           h: s.height,
+      //           w: s.width,
+      //           alig: Alignment.center,
+      //           child: applicationView[currentApplicationOpen]!.last,
+      //         )
+      //       : c(
+      //           key: const Key("replacement"),
+      //           alig: Alignment.center,
+      //           color: Colors.white,
+      //         ),
+      // );
+      setState(() {});
+    });
+    controller!.forward();
+  }
+
+  Widget _buildTransition(
+    Widget page,
+    Animation<double> animation,
+    Size fabSize,
+  ) {
+    if (animation.value == 1) return page;
+
+    final borderTween = BorderRadiusTween(
+      begin: BorderRadius.circular(fabSize.width / 2),
+      end: BorderRadius.circular(30),
+    );
+    final sizeTween = SizeTween(
+      begin: fabSize,
+      end: MediaQuery.of(context).size,
+    );
+    final offsetTween = Tween<Offset>(
+      begin: localPositionl,
+      end: Offset.zero,
+    );
+
+    final easeInAnimation = CurvedAnimation(
+      parent: animation,
+      curve: Curves.easeIn,
+    );
+
+    final radius = borderTween.evaluate(easeInAnimation);
+    final offset = offsetTween.evaluate(animation);
+    final size = sizeTween.evaluate(easeInAnimation);
+    Widget positionedClippedChild(Widget child) => Positioned(
+        width: size!.width,
+        height: size.height,
+        left: offset.dx,
+        top: offset.dy,
+        child: ClipRRect(
+          borderRadius: radius ?? BorderRadius.zero,
+          child: child,
+        ));
+
+    return
+        //  positionedClippedChild(page);
+        Stack(
+      children: [
+        positionedClippedChild(page),
+
+        // positionedClippedChild(transitionFab),
+      ],
+    );
+    // }
+  }
+
+  Offset localPositionl = const Offset(0, 0);
+
+  Widget bottomHomeBack() => Positioned(
+        bottom: 10,
+        left: 20,
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onVerticalDragUpdate: (details) {
+              // check that if the user swiped up then close the app
+              if (details.primaryDelta! < -1) {
+                // User swiped up
+
+                controller!.addListener(() {
+                  if (controller!.status == AnimationStatus.dismissed) {
+                    testWidget = null;
+                    controller!.dispose();
+                    controller = null;
+                    setState(() {});
+                  }
+                });
+                controller!.reverse();
+              }
+            },
+            child: Container(
+                height: 10,
+                width: MediaQuery.of(context).size.width / 2,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(30),
+                )),
+          ),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,33 +312,73 @@ class _MyHomePageState extends State<MyHomePage> {
                 device: Devices.ios.iPhone13ProMax,
                 orientation: Orientation.portrait,
                 deviceOccupySize: 900,
-                screen: Container(
-                  // color: Colors.red,
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 60),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: const AssetImage('assets/iphone_wal.png'),
-                      scale: MediaQuery.of(context).devicePixelRatio,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: StaggeredGrid.count(
-                    crossAxisCount: 4,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 20,
-                    children: [
-                      ...getApplications().map((app) {
-                        final cellCount = app.isBigWidget ? 2 : 1;
-                        return StaggeredGridTile.count(
-                            crossAxisCellCount: cellCount,
-                            mainAxisCellCount: cellCount,
-                            child: AppWidgetBox(
-                              appName: app.appName,
-                              iconPath: app.iconImage,
-                            ));
-                      }),
-                    ],
-                  ),
+                screen: LayoutBuilder(
+                  builder: (contextMobile, constraints) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: const AssetImage('assets/iphone_wal.png'),
+                          scale: MediaQuery.of(context).devicePixelRatio,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Listener(
+                        onPointerDown: (event) {
+                          /// we will use this to get the local position of the tap
+                          /// to use it in the animation
+                          localPositionl = event.localPosition;
+                        },
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 70),
+                              child: PageView(
+                                /// [PageView.scrollDirection] defaults to [Axis.horizontal].
+                                /// Use [Axis.vertical] to scroll vertically.
+                                controller: _pageViewController,
+                                onPageChanged: _handlePageViewChanged,
+                                children: <Widget>[
+                                  ...pages,
+                                ],
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter
+                                  .add(const Alignment(0, -0.35)),
+                              child: Container(
+                                padding: const EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: TabPageSelector(
+                                  controller: _tabController,
+                                  color: Colors.grey,
+                                  selectedColor: Colors.white,
+                                  borderStyle: BorderStyle.none,
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                height: 100,
+                                margin: const EdgeInsets.only(
+                                    bottom: 20, left: 10, right: 10),
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                            ),
+                            if (testWidget != null) testWidget!,
+                            if (testWidget != null) bottomHomeBack(),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ))
           ],
         ),
@@ -311,95 +587,8 @@ class TimeWeatherWidget extends StatelessWidget {
   }
 }
 
-// Custom Widget for Center Tile
-class CenterTileWidget extends StatelessWidget {
-  final String text;
-  final IconData icon;
-  final Color iconColor;
-
-  const CenterTileWidget({
-    super.key,
-    required this.text,
-    required this.icon,
-    required this.iconColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            text,
-            style: const TextStyle(fontSize: 32.0),
-          ),
-          const SizedBox(width: 10.0),
-          Icon(
-            icon,
-            size: 32.0,
-            color: iconColor,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// Custom Widget for Info Tiles
-class InfoTileWidget extends StatelessWidget {
-  final IconData icon1;
-  final String text1;
-  final IconData icon2;
-  final String text2;
-  final IconData icon3;
-  final String text3;
-
-  const InfoTileWidget({
-    super.key,
-    required this.icon1,
-    required this.text1,
-    required this.icon2,
-    required this.text2,
-    required this.icon3,
-    required this.text3,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon1),
-            const SizedBox(width: 5.0),
-            Text(text1),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon2),
-            const SizedBox(width: 5.0),
-            Text(text2),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon3),
-            const SizedBox(width: 5.0),
-            Text(text3),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
 class IOSApplications {
+  Key? key;
   final String appName;
   final String? iconImage;
   final Widget? iconImageWidget;
@@ -411,5 +600,6 @@ class IOSApplications {
     this.iconImage,
     this.iconImageWidget,
     this.isBigWidget = false,
+    this.key,
   });
 }

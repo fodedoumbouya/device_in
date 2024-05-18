@@ -5,12 +5,14 @@ class AppWidgetBox extends StatelessWidget {
   final Widget? iconCustomWidget;
   final String appName;
   final TextStyle? appNameStyle;
+  final void Function(TapDownDetails)? onTapDown;
 
   const AppWidgetBox(
       {required this.appName,
       this.iconPath,
       this.iconCustomWidget,
       this.appNameStyle,
+      this.onTapDown,
       super.key})
       : assert(iconPath != null || iconCustomWidget != null,
             "iconPath and iconCustomWidget can't be null at the same time");
@@ -25,38 +27,41 @@ class AppWidgetBox extends StatelessWidget {
     return Container(
       ///TODO: test perpose only
       // color: Colors.red,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ]),
-                child: widgetView,
+      child: GestureDetector(
+        onTapDown: onTapDown,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Container(
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ]),
+                  child: widgetView,
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          Text(
-            appName,
-            style: appNameStyle ??
-                const TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-          ),
-        ],
+            const SizedBox(
+              height: 4,
+            ),
+            Text(
+              appName,
+              style: appNameStyle ??
+                  const TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }
