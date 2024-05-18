@@ -9,7 +9,7 @@ class AppWidgetBox extends StatelessWidget {
   final Widget? iconCustomWidget;
 
   /// [appName] is a string that holds the name of the application.
-  final String appName;
+  final String? appName;
 
   /// [appNameStyle] is a TextStyle that holds the style of the application name.
   /// Default is TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w500).
@@ -19,7 +19,7 @@ class AppWidgetBox extends StatelessWidget {
   final void Function(TapDownDetails)? onTapDown;
 
   const AppWidgetBox(
-      {required this.appName,
+      {this.appName,
       this.iconPath,
       this.iconCustomWidget,
       this.appNameStyle,
@@ -59,15 +59,16 @@ class AppWidgetBox extends StatelessWidget {
           const SizedBox(
             height: 4,
           ),
-          Text(
-            appName,
-            style: appNameStyle ??
-                const TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-          ),
+          if (appName != null)
+            Text(
+              appName!,
+              style: appNameStyle ??
+                  const TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+            ),
         ],
       ),
     );

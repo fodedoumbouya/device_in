@@ -61,12 +61,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    navigationController = DeviceNavigationController(
-      apps: [
-        ...getApplications(),
-        ...getApplications(),
-      ],
-    );
+    navigationController = DeviceNavigationController(apps: [
+      ...getApplications(),
+      ...getApplications(),
+    ], bottomApps: getApplications());
   }
 
   @override
@@ -83,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             DeviceIn(
               device: Devices.ios.iPhone13ProMax,
               orientation: Orientation.portrait,
-              deviceOccupySize: 900,
+              deviceOccupySize: 800,
               deviceNavigationController: navigationController,
             ),
           ],

@@ -12,19 +12,27 @@ class DeviceNavigationController {
   /// [applicationsStates] is a map that holds the current state of the applications.
   final Map<String, List<Widget>> _applicationsStates = {};
 
-  /// [apps] is a list of applications that are available in the IOS system view.
+  /// [apps] is a list of applications that are available in the system view.
   final List<DeviceApplication> apps;
+
+  /// [bottomApps] is a list of applications that are available in the system view.
+  /// [4 applications are shown in the bottom bar in Max]
+  final List<DeviceApplication> bottomApps;
 
   /// [_currentAppOpen] is a string that holds the current application that is open.
   String _currentAppOpen = "";
 
   /// [DeviceNavigationController] is a factory constructor that creates an instance of [DeviceNavigationController].
-  factory DeviceNavigationController({required List<DeviceApplication> apps}) {
-    return DeviceNavigationController._internal(apps: apps);
+  factory DeviceNavigationController(
+      {required List<DeviceApplication> apps,
+      List<DeviceApplication> bottomApps = const []}) {
+    return DeviceNavigationController._internal(
+        apps: apps, bottomApps: bottomApps);
   }
 
   /// [DeviceNavigationController] is a private constructor that creates an instance of [DeviceNavigationController].
-  DeviceNavigationController._internal({required this.apps});
+  DeviceNavigationController._internal(
+      {required this.apps, this.bottomApps = const []});
 
   /// [stateChangeStream] is a stream that listens to the state changes in the [DeviceNavigationController].
   Stream<DeviceNavigationControllerState> get stateChangeStream =>

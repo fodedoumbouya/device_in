@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -85,9 +86,12 @@ class _IosSystemViewState extends State<IosSystemView>
                 final appSize = constraints.biggest;
                 Offset appWidgeCenterOffset =
                     Offset(constraints.maxWidth / 2, constraints.maxHeight / 2);
+                // print(appSize);
                 return AppWidgetBox(
                   appName: app.appName,
                   iconPath: app.iconImage,
+                  appNameStyle: app.appNameStyle,
+                  iconCustomWidget: app.iconImageWidget,
                   onTapDown: (onTapDown) {
                     openApplicationInPhone(
                       appSize: appSize,
@@ -253,14 +257,22 @@ class _IosSystemViewState extends State<IosSystemView>
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 70),
-              child: PageView(
-                controller: _pageViewController,
-                onPageChanged: (index) {
-                  _tabController.animateTo(index);
-                },
-                children: <Widget>[
-                  ...pages,
-                ],
+              child: ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(dragDevices: {
+                  PointerDeviceKind.touch,
+                  PointerDeviceKind.mouse,
+                  PointerDeviceKind.trackpad,
+                }),
+                child: PageView(
+                  controller: _pageViewController,
+                  onPageChanged: (index) {
+                    _tabController.animateTo(index);
+                  },
+                  children: <Widget>[
+                    ...pages,
+                  ],
+                ),
               ),
             ),
             Align(
@@ -288,6 +300,39 @@ class _IosSystemViewState extends State<IosSystemView>
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ...widget.navigationController.bottomApps
+                        .take(4)
+                        .map((app) {
+                      return SizedBox(
+                        width: 80,
+                        height: 100,
+                        child: LayoutBuilder(builder: (context, constraints) {
+                          final appSize = constraints.biggest;
+                          Offset appWidgeCenterOffset = Offset(
+                              constraints.maxWidth / 2,
+                              constraints.maxHeight / 2);
+                          return AppWidgetBox(
+                            // appName: app.appName,
+                            iconPath: app.iconImage,
+                            appNameStyle: app.appNameStyle,
+                            iconCustomWidget: app.iconImageWidget,
+                            onTapDown: (onTapDown) {
+                              openApplicationInPhone(
+                                appSize: appSize,
+                                appWidgeCenterOffset: appWidgeCenterOffset,
+                                appEntry: app.appEntry,
+                                offset: localPositionl,
+                              );
+                            },
+                          );
+                        }),
+                      );
+                    }),
+                  ],
                 ),
               ),
             ),

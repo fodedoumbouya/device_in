@@ -3,7 +3,11 @@ import 'package:flutter/widgets.dart';
 
 class DeviceApplication {
   /// [appName] is a string that holds the name of the application.
-  final String appName;
+  String? appName;
+
+  /// [appNameStyle] is a TextStyle that holds the style of the application name.
+  /// Default is TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w500).
+  final TextStyle? appNameStyle;
 
   /// [iconImage] is a string that holds the path to the icon of the application.
   /// supports "assets/images/icon.png" format or "http".
@@ -19,10 +23,14 @@ class DeviceApplication {
   /// If true, the widget is big, else it is small.
   final bool isBigWidget;
   DeviceApplication({
-    required this.appName,
+    this.appName,
     required this.appEntry,
+    this.appNameStyle,
     this.iconImage,
     this.iconImageWidget,
     this.isBigWidget = false,
-  });
+  })  : assert(iconImage != null || iconImageWidget != null,
+            "iconImage and iconImageWidget can't be null at the same time"),
+        assert(appName == null || iconImage == null || iconImageWidget == null,
+            "appName, iconImage and iconImageWidget can't be null at the same time");
 }
