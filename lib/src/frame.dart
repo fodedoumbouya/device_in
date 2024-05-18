@@ -1,4 +1,7 @@
+import 'package:device_in/src/system/controller/deviceNavigationController.dart';
+import 'package:device_in/src/system/iosSystemView/iosSystemView.dart';
 import 'package:device_in/src/utils/deviceInfo.dart';
+import 'package:device_in/src/utils/identifier.dart';
 import 'package:flutter/material.dart';
 
 /// Simulate a physical device and embedding a virtual
@@ -26,7 +29,11 @@ class DeviceIn extends StatelessWidget {
   ///
   /// It is cropped with the device screen shape and its size
   /// is the [info]'s screensize.
-  final Widget? screen;
+  // final Widget? screen;
+
+  /// [DeviceNavigationController] is a controller that helps to navigate between different applications
+  /// and keep track of the current state of the application. It is used to manage the navigation between applications
+  final DeviceNavigationController deviceNavigationController;
 
   /// All information related to the device.
   final DeviceInfo device;
@@ -54,7 +61,8 @@ class DeviceIn extends StatelessWidget {
   const DeviceIn({
     super.key,
     required this.device,
-    this.screen,
+    // this.screen,
+    required this.deviceNavigationController,
     this.orientation = Orientation.portrait,
     this.isFrameVisible = true,
     this.deviceOccupySize,
@@ -100,7 +108,10 @@ class DeviceIn extends StatelessWidget {
     final screenSize = info != null ? info.screenSize : mediaQuery.size;
     final width = isRotated ? screenSize.height : screenSize.width;
     final height = isRotated ? width : screenSize.height;
-
+    final screen = switch (device.identifier.platform == TargetPlatform.iOS) {
+      true => IosSystemView(navigationController: deviceNavigationController),
+      false => _notSupport,
+    };
     return RotatedBox(
       quarterTurns: isRotated ? 1 : 0,
       child: SizedBox(
@@ -114,18 +125,18 @@ class DeviceIn extends StatelessWidget {
           ),
           child: Theme(
             data: _theme(context),
-            child: screen ?? _emptyScreen,
+            child: screen,
           ),
         ),
       ),
     );
   }
 
-  Widget get _emptyScreen => Container(
+  Widget get _notSupport => Container(
         color: Colors.blue,
         child: const Center(
           child: Text(
-            'No screen provided',
+            'Not supported',
             style: TextStyle(
               color: Colors.white,
               fontSize: 24,
