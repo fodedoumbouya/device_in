@@ -93,10 +93,14 @@ class _IosSystemViewState extends State<IosSystemView>
                   appNameStyle: app.appNameStyle,
                   iconCustomWidget: app.iconImageWidget,
                   onTapDown: (onTapDown) {
+                    if (app.onTap != null) {
+                      app.onTap!();
+                      return;
+                    }
                     openApplicationInPhone(
                       appSize: appSize,
                       appWidgeCenterOffset: appWidgeCenterOffset,
-                      appEntry: app.appEntry,
+                      appEntry: app.appEntry!,
                       offset: localPositionl,
                     );
                   },
@@ -338,10 +342,15 @@ class _IosSystemViewState extends State<IosSystemView>
                             appNameStyle: app.appNameStyle,
                             iconCustomWidget: app.iconImageWidget,
                             onTapDown: (onTapDown) {
+                              /// if the app has a onTap function we will call it
+                              if (app.onTap != null) {
+                                app.onTap!();
+                                return;
+                              }
                               openApplicationInPhone(
                                 appSize: appSize,
                                 appWidgeCenterOffset: appWidgeCenterOffset,
-                                appEntry: app.appEntry,
+                                appEntry: app.appEntry!,
                                 offset: localPositionl,
                               );
                             },

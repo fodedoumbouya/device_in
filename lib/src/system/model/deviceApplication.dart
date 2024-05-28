@@ -17,20 +17,26 @@ class DeviceApplication {
   final Widget? iconImageWidget;
 
   /// [appEntry] is a widget that holds the entry point of the application or the first widget to open on launch.
-  final Widget appEntry;
+  final Widget? appEntry;
+
+  /// [onTap] is a function that is called when the application is tapped.
+  final void Function()? onTap;
 
   /// [isBigWidget] is a boolean that holds the state of the widget.
   /// If true, the widget is big, else it is small.
   final bool isBigWidget;
   DeviceApplication({
     this.appName,
-    required this.appEntry,
+    this.appEntry,
+    this.onTap,
     this.appNameStyle,
     this.iconImage,
     this.iconImageWidget,
     this.isBigWidget = false,
   })  : assert(iconImage != null || iconImageWidget != null,
             "iconImage and iconImageWidget can't be null at the same time"),
+        assert(appEntry != null || onTap != null,
+            "appEntry and onTap can't be null at the same time"),
         assert(appName == null || iconImage == null || iconImageWidget == null,
             "appName, iconImage and iconImageWidget can't be null at the same time");
 }
