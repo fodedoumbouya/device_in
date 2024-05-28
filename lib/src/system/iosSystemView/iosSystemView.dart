@@ -109,7 +109,7 @@ class _IosSystemViewState extends State<IosSystemView>
 
   @override
   void initState() {
-    super.initState();
+    loadBackground();
     separateAppsToPages();
 
     /// we will listen to the navigation controller to know the state of the navigation
@@ -129,9 +129,23 @@ class _IosSystemViewState extends State<IosSystemView>
       if (event == DeviceNavigationControllerState.goTo ||
           event == DeviceNavigationControllerState.goBack) {
         appOpen.value = widget.navigationController.getCurrentApp();
-        // appOpen.notifyListeners();
       }
     });
+    super.initState();
+  }
+
+  ImageProvider<Object>? bgImage;
+
+  void loadBackground() {
+    final src = widget.navigationController.deviceBackgroundImage;
+    if (src.contains("http")) {
+      bgImage = Image.network(src).image;
+    } else {
+      bgImage = AssetImage(src);
+    }
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   /// explaination:
@@ -240,11 +254,14 @@ class _IosSystemViewState extends State<IosSystemView>
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: const AssetImage('assets/iphone_wal.png'),
-          scale: MediaQuery.of(context).devicePixelRatio,
-          fit: BoxFit.cover,
-        ),
+        color: bgImage == null ? Colors.white : null,
+        image: bgImage == null
+            ? null
+            : DecorationImage(
+                image: bgImage!,
+                scale: MediaQuery.of(context).devicePixelRatio,
+                fit: BoxFit.cover,
+              ),
       ),
       child: Listener(
         behavior: HitTestBehavior.deferToChild,

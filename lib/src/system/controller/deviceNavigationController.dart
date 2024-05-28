@@ -19,20 +19,27 @@ class DeviceNavigationController {
   /// [4 applications are shown in the bottom bar in Max]
   final List<DeviceApplication> bottomApps;
 
+  final String deviceBackgroundImage;
+
   /// [_currentAppOpen] is a string that holds the current application that is open.
   String _currentAppOpen = "";
 
   /// [DeviceNavigationController] is a factory constructor that creates an instance of [DeviceNavigationController].
   factory DeviceNavigationController(
       {required List<DeviceApplication> apps,
-      List<DeviceApplication> bottomApps = const []}) {
+      List<DeviceApplication> bottomApps = const [],
+      required String deviceBackgroundImage}) {
     return DeviceNavigationController._internal(
-        apps: apps, bottomApps: bottomApps);
+        apps: apps,
+        bottomApps: bottomApps,
+        deviceBackgroundImage: deviceBackgroundImage);
   }
 
   /// [DeviceNavigationController] is a private constructor that creates an instance of [DeviceNavigationController].
   DeviceNavigationController._internal(
-      {required this.apps, this.bottomApps = const []});
+      {required this.apps,
+      this.bottomApps = const [],
+      required this.deviceBackgroundImage});
 
   /// [stateChangeStream] is a stream that listens to the state changes in the [DeviceNavigationController].
   Stream<DeviceNavigationControllerState> get stateChangeStream =>

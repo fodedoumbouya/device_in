@@ -61,10 +61,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    navigationController = DeviceNavigationController(apps: [
-      ...getApplications(),
-      ...getApplications(),
-    ], bottomApps: getApplications());
+    navigationController = DeviceNavigationController(
+        deviceBackgroundImage: "assets/iphone_wal.png",
+        apps: [
+          ...getApplications(),
+          ...getApplications(),
+        ],
+        bottomApps: getApplications());
   }
 
   @override
