@@ -43,17 +43,7 @@ class AppWidgetBox extends StatelessWidget {
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ]),
-                child: widgetView,
-              ),
+              child: widgetView,
             ),
           ),
           const SizedBox(
