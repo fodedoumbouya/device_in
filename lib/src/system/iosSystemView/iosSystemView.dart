@@ -277,7 +277,7 @@ class _IosSystemViewState extends State<IosSystemView>
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 70),
+              padding: const EdgeInsets.only(top: 70, left: 20, right: 20),
               child: ScrollConfiguration(
                 behavior:
                     ScrollConfiguration.of(context).copyWith(dragDevices: {
@@ -323,7 +323,7 @@ class _IosSystemViewState extends State<IosSystemView>
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ...widget.navigationController.bottomApps
                         .take(4)
