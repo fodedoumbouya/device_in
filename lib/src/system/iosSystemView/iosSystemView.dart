@@ -87,23 +87,25 @@ class _IosSystemViewState extends State<IosSystemView>
                 Offset appWidgeCenterOffset =
                     Offset(constraints.maxWidth / 2, constraints.maxHeight / 2);
                 // print(appSize);
-                return AppWidgetBox(
-                  appName: app.appName,
-                  iconPath: app.iconImage,
-                  appNameStyle: app.appNameStyle,
-                  iconCustomWidget: app.iconImageWidget,
-                  onTapDown: (onTapDown) {
-                    if (app.onTap != null) {
-                      app.onTap!();
-                      return;
-                    }
-                    openApplicationInPhone(
-                      appSize: appSize,
-                      appWidgeCenterOffset: appWidgeCenterOffset,
-                      appEntry: app.appEntry!,
-                      offset: localPositionl,
-                    );
-                  },
+                return IntrinsicWidth(
+                  child: AppWidgetBox(
+                    appName: app.appName,
+                    iconPath: app.iconImage,
+                    appNameStyle: app.appNameStyle,
+                    iconCustomWidget: app.iconImageWidget,
+                    onTapDown: (onTapDown) {
+                      if (app.onTap != null) {
+                        app.onTap!();
+                        return;
+                      }
+                      openApplicationInPhone(
+                        appSize: appSize,
+                        appWidgeCenterOffset: appWidgeCenterOffset,
+                        appEntry: app.appEntry!,
+                        offset: localPositionl,
+                      );
+                    },
+                  ),
                 );
               }));
         }),
@@ -323,7 +325,7 @@ class _IosSystemViewState extends State<IosSystemView>
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ...widget.navigationController.bottomApps
                         .take(4)

@@ -102,6 +102,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         iconImage: 'assets/appIcons/jufe.png',
       ),
       DeviceApplication(
+        appName: 'App 1',
+        isBigWidget: true,
+        appEntry: const Text('App 111'),
+        iconImage: 'assets/appIcons/jufe.png',
+      ),
+      DeviceApplication(
         appName: 'App 2',
         appEntry: Container(
           color: Colors.blue,
