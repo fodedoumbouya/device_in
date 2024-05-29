@@ -299,7 +299,7 @@ class _IosSystemViewState extends State<IosSystemView>
             Align(
               alignment: Alignment.bottomCenter.add(const Alignment(0, -0.35)),
               child: Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(30),
