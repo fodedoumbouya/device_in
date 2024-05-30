@@ -1,5 +1,8 @@
+// ignore_for_file: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+
 import 'dart:async';
 
+import 'package:device_in/src/system/model/toast.dart';
 import 'package:flutter/widgets.dart';
 
 import '../model/enum.dart';
@@ -19,27 +22,33 @@ class DeviceNavigationController {
   /// [4 applications are shown in the bottom bar in Max]
   final List<DeviceApplication> bottomApps;
 
+  /// [deviceBackgroundImage] is a string that holds the path to the background image of the device.
   final String deviceBackgroundImage;
+
+  IOSToast toast = IOSToast();
 
   /// [_currentAppOpen] is a string that holds the current application that is open.
   String _currentAppOpen = "";
 
   /// [DeviceNavigationController] is a factory constructor that creates an instance of [DeviceNavigationController].
-  factory DeviceNavigationController(
-      {required List<DeviceApplication> apps,
-      List<DeviceApplication> bottomApps = const [],
-      required String deviceBackgroundImage}) {
+  factory DeviceNavigationController({
+    required List<DeviceApplication> apps,
+    List<DeviceApplication> bottomApps = const [],
+    required String deviceBackgroundImage,
+  }) {
     return DeviceNavigationController._internal(
-        apps: apps,
-        bottomApps: bottomApps,
-        deviceBackgroundImage: deviceBackgroundImage);
+      apps: apps,
+      bottomApps: bottomApps,
+      deviceBackgroundImage: deviceBackgroundImage,
+    );
   }
 
   /// [DeviceNavigationController] is a private constructor that creates an instance of [DeviceNavigationController].
-  DeviceNavigationController._internal(
-      {required this.apps,
-      this.bottomApps = const [],
-      required this.deviceBackgroundImage});
+  DeviceNavigationController._internal({
+    required this.apps,
+    this.bottomApps = const [],
+    required this.deviceBackgroundImage,
+  });
 
   /// [stateChangeStream] is a stream that listens to the state changes in the [DeviceNavigationController].
   Stream<DeviceNavigationControllerState> get stateChangeStream =>
@@ -103,5 +112,45 @@ class DeviceNavigationController {
       return const SizedBox.shrink();
     }
     return _applicationsStates[_currentAppOpen]!.last;
+  }
+
+  void showToast({
+    Widget? content,
+    Widget? title,
+    Widget? leading,
+    Widget? trailing,
+    Duration? duration,
+    Decoration? toastDecoration,
+    bool autoDismiss = true,
+  }) async {
+    if (toast.showToast.value) {
+      hideToast();
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
+    toast
+      ..content = content
+      ..title = title
+      ..leading = leading
+      ..trailing = trailing
+      ..duration = duration
+      ..toastDecoration = toastDecoration
+      ..autoDismiss = autoDismiss
+      ..showToast.value = true;
+    toast.showToast.notifyListeners();
+    if (autoDismiss) {
+      Future.delayed(
+          (duration ?? const Duration(seconds: 2)) +
+              const Duration(milliseconds: 300), () {
+        toast.showToast.value = false;
+        toast.showToast.notifyListeners();
+      });
+    }
+  }
+
+  void hideToast() {
+    if (toast.showToast.value) {
+      toast.showToast.value = false;
+      toast.showToast.notifyListeners();
+    }
   }
 }

@@ -1,7 +1,9 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../controller/deviceNavigationController.dart';
@@ -86,7 +88,6 @@ class _IosSystemViewState extends State<IosSystemView>
                 final appSize = constraints.biggest;
                 Offset appWidgeCenterOffset =
                     Offset(constraints.maxWidth / 2, constraints.maxHeight / 2);
-                // print(appSize);
                 return IntrinsicWidth(
                   child: AppWidgetBox(
                     appName: app.appName,
@@ -174,7 +175,7 @@ class _IosSystemViewState extends State<IosSystemView>
     widget.navigationController.goTo(widget: appEntry);
 
     curve.addListener(() {
-      bool isVisible = curve.value >= 0.95;
+      bool isVisible = curve.value >= 1; //0.95;
       isAppOpen.value = isVisible;
       appOpen.value = _buildTransition(
         page: isVisible
@@ -378,6 +379,33 @@ class _IosSystemViewState extends State<IosSystemView>
                   true => bottomHomeBack(),
                   false => const SizedBox.shrink(),
                 };
+              },
+            ),
+            ValueListenableBuilder(
+              valueListenable: widget.navigationController.toast.showToast,
+              builder: (context, dialogOpen, child) {
+                return AnimatedPositioned(
+                    top: dialogOpen ? 10 : -100,
+                    left: 0,
+                    right: 0,
+                    duration: const Duration(milliseconds: 300),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 70,
+                      margin: const EdgeInsets.all(30),
+                      decoration:
+                          widget.navigationController.toast.toastDecoration ??
+                              BoxDecoration(
+                                color: const Color.fromARGB(255, 228, 227, 224),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                      child: ListTile(
+                        leading: widget.navigationController.toast.leading,
+                        title: widget.navigationController.toast.title,
+                        subtitle: widget.navigationController.toast.content,
+                        trailing: widget.navigationController.toast.trailing,
+                      ),
+                    ));
               },
             )
           ],

@@ -139,7 +139,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ),
                           body: GestureDetector(
                             onTap: () {
-                              navigationController.goBack();
+                              navigationController.showToast(
+                                content: const Text('App 2'),
+                                title: const Text('App 1'),
+                                leading: const Icon(Icons.info),
+                              );
+                              // navigationController.goBack();
                             },
                             child: const Center(
                               child: Text('App 2'),
