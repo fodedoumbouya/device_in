@@ -102,7 +102,9 @@ class _IosSystemViewState extends State<IosSystemView>
                       openApplicationInPhone(
                         appSize: appSize,
                         appWidgeCenterOffset: appWidgeCenterOffset,
-                        appEntry: app.appEntry!,
+                        appEntry: app.appEntry!(
+                          widget.navigationController,
+                        ),
                         offset: localPositionl,
                       );
                     },
@@ -353,7 +355,9 @@ class _IosSystemViewState extends State<IosSystemView>
                               openApplicationInPhone(
                                 appSize: appSize,
                                 appWidgeCenterOffset: appWidgeCenterOffset,
-                                appEntry: app.appEntry!,
+                                appEntry: app.appEntry!(
+                                  widget.navigationController,
+                                ),
                                 offset: localPositionl,
                               );
                             },

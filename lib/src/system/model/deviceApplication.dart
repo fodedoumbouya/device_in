@@ -1,5 +1,11 @@
+import 'package:device_in/device_in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+/// [bottomSheetOffset] - fractional value of offset.
+typedef EntryWidgetBuilder = Widget Function(
+  DeviceNavigationController controller,
+);
 
 class DeviceApplication {
   /// [appName] is a string that holds the name of the application.
@@ -17,7 +23,8 @@ class DeviceApplication {
   final Widget? iconImageWidget;
 
   /// [appEntry] is a widget that holds the entry point of the application or the first widget to open on launch.
-  final Widget? appEntry;
+  /// Function(BuildContext, ScrollController, double
+  final EntryWidgetBuilder? appEntry;
 
   /// [onTap] is a function that is called when the application is tapped.
   final void Function()? onTap;

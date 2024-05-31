@@ -98,130 +98,138 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       DeviceApplication(
         appName: 'App 1',
         isBigWidget: true,
-        appEntry: const Text('App 111'),
+        appEntry: (controller) {
+          return const Text('App 111');
+        },
         iconImage: 'assets/appIcons/jufe.png',
       ),
       DeviceApplication(
         appName: 'App 1',
         isBigWidget: true,
-        appEntry: const Text('App 111'),
+        appEntry: (controller) {
+          return const Text('App 111');
+        },
         iconImage: 'assets/appIcons/jufe.png',
       ),
       DeviceApplication(
         appName: 'App 2',
-        appEntry: Container(
-          color: Colors.blue,
-          padding: const EdgeInsets.all(3),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  // image: iconPath == null ? null : "appIcons/$iconPath",
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ]),
-                  child: GestureDetector(
-                      onTap: () {
-                        navigationController.goTo(
-                            widget: Scaffold(
-                          appBar: AppBar(
-                            title: const Text('App 2'),
+        appEntry: (con) {
+          return Container(
+            color: Colors.blue,
+            padding: const EdgeInsets.all(3),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.center,
+                    // image: iconPath == null ? null : "appIcons/$iconPath",
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
                           ),
-                          body: GestureDetector(
-                            onTap: () {
-                              navigationController.showToast(
-                                content: const Text('App 2'),
-                                title: const Text('App 1'),
-                                leading: const Icon(Icons.info),
-                              );
-                              // navigationController.goBack();
-                            },
-                            child: const Center(
-                              child: Text('App 2'),
+                        ]),
+                    child: GestureDetector(
+                        onTap: () {
+                          con.goTo(
+                              widget: Scaffold(
+                            appBar: AppBar(
+                              title: const Text('App 2'),
                             ),
-                          ),
-                        ));
-                      },
-                      child: const FlutterLogo()),
-                  // iconPath == null ? widget : null,
+                            body: GestureDetector(
+                              onTap: () {
+                                con.showToast(
+                                  content: const Text('App 2'),
+                                  title: const Text('App 1'),
+                                  leading: const Icon(Icons.info),
+                                );
+                                // navigationController.goBack();
+                              },
+                              child: const Center(
+                                child: Text('App 2'),
+                              ),
+                            ),
+                          ));
+                        },
+                        child: const FlutterLogo()),
+                    // iconPath == null ? widget : null,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-              const Text("App 2"),
-            ],
-          ),
-        ),
+                const SizedBox(
+                  height: 4,
+                ),
+                const Text("App 2"),
+              ],
+            ),
+          );
+        },
         iconImage: 'assets/appIcons/projectX.png',
       ),
       DeviceApplication(
         appName: 'App 3',
-        appEntry: Container(
-          color: Colors.green,
-        ),
+        appEntry: (controller) {
+          return Container(
+            color: Colors.green,
+          );
+        },
         iconImage: 'assets/appIcons/remora.png',
       ),
-      DeviceApplication(
-        appName: 'App 4',
-        appEntry: Container(
-          color: Colors.yellow,
-        ),
-        iconImage: 'assets/appIcons/jufe.png',
-      ),
-      DeviceApplication(
-        appName: 'App 5',
-        appEntry: Container(
-          color: Colors.purple,
-        ),
-        iconImage: 'assets/appIcons/projectX.png',
-      ),
-      DeviceApplication(
-        appName: 'App 6',
-        isBigWidget: true,
-        appEntry: Container(
-          color: Colors.orange,
-        ),
-        iconImage: 'assets/appIcons/remora.png',
-      ),
-      DeviceApplication(
-        appName: 'App 7',
-        appEntry: Container(
-          color: Colors.pink,
-        ),
-        iconImage: 'assets/appIcons/jufe.png',
-      ),
-      DeviceApplication(
-        appName: 'App 8',
-        appEntry: Container(
-          color: Colors.teal,
-        ),
-        iconImage: 'assets/appIcons/projectX.png',
-      ),
-      DeviceApplication(
-        appName: 'App 9',
-        appEntry: Container(
-          color: Colors.brown,
-        ),
-        iconImage: 'assets/appIcons/remora.png',
-      ),
-      DeviceApplication(
-        appName: 'App 10',
-        appEntry: Container(
-          color: Colors.grey,
-        ),
-        iconImage: 'assets/appIcons/jufe.png',
-      ),
+      // DeviceApplication(
+      //   appName: 'App 4',
+      //   appEntry: Container(
+      //     color: Colors.yellow,
+      //   ),
+      //   iconImage: 'assets/appIcons/jufe.png',
+      // ),
+      // DeviceApplication(
+      //   appName: 'App 5',
+      //   appEntry: Container(
+      //     color: Colors.purple,
+      //   ),
+      //   iconImage: 'assets/appIcons/projectX.png',
+      // ),
+      // DeviceApplication(
+      //   appName: 'App 6',
+      //   isBigWidget: true,
+      //   appEntry: Container(
+      //     color: Colors.orange,
+      //   ),
+      //   iconImage: 'assets/appIcons/remora.png',
+      // ),
+      // DeviceApplication(
+      //   appName: 'App 7',
+      //   appEntry: Container(
+      //     color: Colors.pink,
+      //   ),
+      //   iconImage: 'assets/appIcons/jufe.png',
+      // ),
+      // DeviceApplication(
+      //   appName: 'App 8',
+      //   appEntry: Container(
+      //     color: Colors.teal,
+      //   ),
+      //   iconImage: 'assets/appIcons/projectX.png',
+      // ),
+      // DeviceApplication(
+      //   appName: 'App 9',
+      //   appEntry: Container(
+      //     color: Colors.brown,
+      //   ),
+      //   iconImage: 'assets/appIcons/remora.png',
+      // ),
+      // DeviceApplication(
+      //   appName: 'App 10',
+      //   appEntry: Container(
+      //     color: Colors.grey,
+      //   ),
+      //   iconImage: 'assets/appIcons/jufe.png',
+      // ),
     ];
   }
 }

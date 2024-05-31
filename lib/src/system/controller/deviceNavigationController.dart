@@ -25,6 +25,7 @@ class DeviceNavigationController {
   /// [deviceBackgroundImage] is a string that holds the path to the background image of the device.
   final String deviceBackgroundImage;
 
+  ///[toast] is an instance of [IOSToast].
   IOSToast toast = IOSToast();
 
   /// [_currentAppOpen] is a string that holds the current application that is open.
@@ -114,6 +115,7 @@ class DeviceNavigationController {
     return _applicationsStates[_currentAppOpen]!.last;
   }
 
+  /// [showToast] is a function that shows a toast.
   void showToast({
     Widget? content,
     Widget? title,
@@ -147,6 +149,7 @@ class DeviceNavigationController {
     }
   }
 
+  /// [hideToast] is a function that hides the toast.
   void hideToast() {
     if (toast.showToast.value) {
       toast.showToast.value = false;
