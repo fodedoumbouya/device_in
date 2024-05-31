@@ -18,12 +18,16 @@ class AppWidgetBox extends StatelessWidget {
   /// [onTapDown] is a function that is called when the user taps down on the application.
   final void Function(TapDownDetails)? onTapDown;
 
+  /// [ignoring] is a boolean that holds the state of the widget.
+  final bool ignoring;
+
   const AppWidgetBox(
       {this.appName,
       this.iconPath,
       this.iconCustomWidget,
       this.appNameStyle,
       this.onTapDown,
+      this.ignoring = false,
       super.key})
       : assert(iconPath != null || iconCustomWidget != null,
             "iconPath and iconCustomWidget can't be null at the same time");
@@ -43,7 +47,10 @@ class AppWidgetBox extends StatelessWidget {
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: widgetView,
+              child: IgnorePointer(
+                ignoring: ignoring,
+                child: widgetView,
+              ),
             ),
           ),
           const SizedBox(

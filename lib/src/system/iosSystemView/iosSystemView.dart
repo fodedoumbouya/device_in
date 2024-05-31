@@ -94,6 +94,7 @@ class _IosSystemViewState extends State<IosSystemView>
                     iconPath: app.iconImage,
                     appNameStyle: app.appNameStyle,
                     iconCustomWidget: app.iconImageWidget,
+                    ignoring: app.iconImageWidgetIgnoreGesture,
                     onTapDown: (onTapDown) {
                       if (app.onTap != null) {
                         app.onTap!();
