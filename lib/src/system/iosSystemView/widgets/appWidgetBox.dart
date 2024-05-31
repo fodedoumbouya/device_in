@@ -41,16 +41,14 @@ class AppWidgetBox extends StatelessWidget {
         );
     return GestureDetector(
       onTapDown: onTapDown,
+      behavior: HitTestBehavior.deferToChild,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: IgnorePointer(
-                ignoring: ignoring,
-                child: widgetView,
-              ),
+              child: widgetView,
             ),
           ),
           const SizedBox(

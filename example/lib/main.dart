@@ -113,6 +113,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
       DeviceApplication(
         appName: 'App 2',
+        iconImageWidgetIgnoreGesture: true,
         appEntry: (con) {
           return Container(
             color: Colors.blue,

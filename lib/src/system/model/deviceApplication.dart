@@ -22,9 +22,6 @@ class DeviceApplication {
   /// [iconImageWidget] is a widget that holds the custom icon of the application.
   final Widget? iconImageWidget;
 
-  /// [iconImageWidgetIgnoreGesture] is a boolean that holds the state of the widget.
-  final bool iconImageWidgetIgnoreGesture;
-
   /// [appEntry] is a widget that holds the entry point of the application or the first widget to open on launch.
   /// Function(BuildContext, ScrollController, double
   final EntryWidgetBuilder? appEntry;
@@ -42,7 +39,6 @@ class DeviceApplication {
     this.appNameStyle,
     this.iconImage,
     this.iconImageWidget,
-    this.iconImageWidgetIgnoreGesture = false,
     this.isBigWidget = false,
   })  : assert(iconImage != null || iconImageWidget != null,
             "iconImage and iconImageWidget can't be null at the same time"),
