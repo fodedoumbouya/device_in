@@ -107,7 +107,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         appName: 'App 1',
         isBigWidget: true,
         appEntry: (controller) {
-          return const Text('App 111');
+          return GestureDetector(
+              onTap: () {
+                controller.showToast(
+                  content: const Text(
+                      'App xasjxnkajbxlabxs,ksbkavcksbdhvcksvbvsalcblabcksdvhblcjbdsj2'),
+                  title: const Text('App 1'),
+                  leading: const Icon(Icons.info),
+                );
+              },
+              child: const Text('App 111'));
         },
         iconImage: 'assets/appIcons/jufe.png',
       ),
