@@ -128,7 +128,7 @@ class DeviceNavigationController {
   }) async {
     if (toast.showToast.value) {
       hideToast();
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 700));
     }
     toast
       ..content = content
@@ -144,7 +144,7 @@ class DeviceNavigationController {
     if (autoDismiss) {
       Future.delayed(
           (duration ?? const Duration(seconds: 2)) +
-              const Duration(milliseconds: 300), () {
+              const Duration(milliseconds: 500), () {
         toast.showToast.value = false;
         toast.showToast.notifyListeners();
       });

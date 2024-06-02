@@ -389,10 +389,12 @@ class _IosSystemViewState extends State<IosSystemView>
               valueListenable: widget.navigationController.toast.showToast,
               builder: (context, dialogOpen, child) {
                 return AnimatedPositioned(
-                    top: dialogOpen ? 10 : -200,
+                    top: dialogOpen
+                        ? 10
+                        : -MediaQuery.of(context).size.height / 2,
                     left: 0,
                     right: 0,
-                    duration: const Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 500),
                     child: Container(
                         // height: 150,
                         margin:
