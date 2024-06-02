@@ -394,22 +394,71 @@ class _IosSystemViewState extends State<IosSystemView>
                     right: 0,
                     duration: const Duration(milliseconds: 300),
                     child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 70,
-                      margin: const EdgeInsets.all(30),
-                      decoration:
-                          widget.navigationController.toast.toastDecoration ??
-                              BoxDecoration(
-                                color: const Color.fromARGB(255, 228, 227, 224),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                      child: ListTile(
-                        leading: widget.navigationController.toast.leading,
-                        title: widget.navigationController.toast.title,
-                        subtitle: widget.navigationController.toast.content,
-                        trailing: widget.navigationController.toast.trailing,
-                      ),
-                    ));
+                        // height: 150,
+                        margin:
+                            widget.navigationController.toast.contentPadding ??
+                                const EdgeInsets.all(30),
+                        padding: const EdgeInsets.all(20),
+                        decoration: widget
+                                .navigationController.toast.toastDecoration ??
+                            BoxDecoration(
+                              color: const Color.fromARGB(255, 228, 227, 224),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child:
+                                    widget.navigationController.toast.leading ??
+                                        const SizedBox.shrink()),
+                            Expanded(
+                                flex: 3,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    widget.navigationController.toast.title ??
+                                        const SizedBox.shrink(),
+                                    widget.navigationController.toast.content ??
+                                        const SizedBox.shrink(),
+                                  ],
+                                )),
+                            widget.navigationController.toast.trailing ??
+                                const SizedBox.shrink(),
+                          ],
+                        )
+
+                        // ListTile(
+                        //   titleAlignment: ListTileTitleAlignment.center,
+                        //   contentPadding: widget
+                        //       .windowsManagementController.toast.contentPadding,
+                        //   leading: widget.windowsManagementController.toast.leading,
+                        //   title: widget.windowsManagementController.toast.title,
+                        //   subtitle:
+                        //       widget.windowsManagementController.toast.content,
+                        //   trailing:
+                        //       widget.windowsManagementController.toast.trailing,
+                        // ),
+                        ));
+
+                // Container(
+                //   width: MediaQuery.of(context).size.width,
+                //   height: 70,
+                //   margin: const EdgeInsets.all(30),
+                //   decoration:
+                //       widget.navigationController.toast.toastDecoration ??
+                //           BoxDecoration(
+                //             color: const Color.fromARGB(255, 228, 227, 224),
+                //             borderRadius: BorderRadius.circular(30),
+                //           ),
+                //   child: ListTile(
+                //     leading: widget.navigationController.toast.leading,
+                //     title: widget.navigationController.toast.title,
+                //     subtitle: widget.navigationController.toast.content,
+                //     trailing: widget.navigationController.toast.trailing,
+                //   ),
+                // ));
               },
             )
           ],

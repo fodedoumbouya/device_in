@@ -2,7 +2,7 @@ import 'package:device_in/device_in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-/// [bottomSheetOffset] - fractional value of offset.
+/// [EntryWidgetBuilder] is a function that returns a widget.
 typedef EntryWidgetBuilder = Widget Function(
   DeviceNavigationController controller,
 );

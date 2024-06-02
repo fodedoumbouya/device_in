@@ -123,6 +123,7 @@ class DeviceNavigationController {
     Widget? trailing,
     Duration? duration,
     Decoration? toastDecoration,
+    EdgeInsetsGeometry? contentPadding,
     bool autoDismiss = true,
   }) async {
     if (toast.showToast.value) {
@@ -137,6 +138,7 @@ class DeviceNavigationController {
       ..duration = duration
       ..toastDecoration = toastDecoration
       ..autoDismiss = autoDismiss
+      ..contentPadding = contentPadding
       ..showToast.value = true;
     toast.showToast.notifyListeners();
     if (autoDismiss) {
