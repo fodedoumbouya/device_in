@@ -95,7 +95,7 @@ class _IosSystemViewState extends State<IosSystemView>
                     Offset(constraints.maxWidth / 2, constraints.maxHeight / 2);
                 return IntrinsicWidth(
                   child: Container(
-                    color: Colors.red,
+                    // color: Colors.red,
                     margin: const EdgeInsets.only(left: 5, right: 5),
                     child: AppWidgetBox(
                       appName: app.appName,
