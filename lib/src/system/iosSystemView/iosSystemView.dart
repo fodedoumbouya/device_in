@@ -86,7 +86,7 @@ class _IosSystemViewState extends State<IosSystemView>
       children: [
         ...apps.map((app) {
           final cellCount = app.isBigWidget ? 2 : 1;
-          final padding = app.isBigWidget ? 10.0 : 5.0;
+          final padding = app.isBigWidget ? 20.0 : 5.0;
           return StaggeredGridTile.count(
               crossAxisCellCount: cellCount,
               mainAxisCellCount: cellCount,
