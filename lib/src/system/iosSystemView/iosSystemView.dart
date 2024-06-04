@@ -94,25 +94,29 @@ class _IosSystemViewState extends State<IosSystemView>
                 Offset appWidgeCenterOffset =
                     Offset(constraints.maxWidth / 2, constraints.maxHeight / 2);
                 return IntrinsicWidth(
-                  child: AppWidgetBox(
-                    appName: app.appName,
-                    iconPath: app.iconImage,
-                    appNameStyle: app.appNameStyle,
-                    iconCustomWidget: app.iconImageWidget,
-                    onTapDown: (onTapDown) {
-                      if (app.onTap != null) {
-                        app.onTap!();
-                        return;
-                      }
-                      openApplicationInPhone(
-                        appSize: appSize,
-                        appWidgeCenterOffset: appWidgeCenterOffset,
-                        appEntry: app.appEntry!(
-                          widget.navigationController,
-                        ),
-                        offset: localPositionl,
-                      );
-                    },
+                  child: Container(
+                    color: Colors.red,
+                    margin: const EdgeInsets.only(left: 5, right: 5),
+                    child: AppWidgetBox(
+                      appName: app.appName,
+                      iconPath: app.iconImage,
+                      appNameStyle: app.appNameStyle,
+                      iconCustomWidget: app.iconImageWidget,
+                      onTapDown: (onTapDown) {
+                        if (app.onTap != null) {
+                          app.onTap!();
+                          return;
+                        }
+                        openApplicationInPhone(
+                          appSize: appSize,
+                          appWidgeCenterOffset: appWidgeCenterOffset,
+                          appEntry: app.appEntry!(
+                            widget.navigationController,
+                          ),
+                          offset: localPositionl,
+                        );
+                      },
+                    ),
                   ),
                 );
               }));
