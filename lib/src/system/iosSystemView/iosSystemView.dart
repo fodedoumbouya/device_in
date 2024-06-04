@@ -86,6 +86,7 @@ class _IosSystemViewState extends State<IosSystemView>
       children: [
         ...apps.map((app) {
           final cellCount = app.isBigWidget ? 2 : 1;
+          final padding = app.isBigWidget ? 5.0 : 0.0;
           return StaggeredGridTile.count(
               crossAxisCellCount: cellCount,
               mainAxisCellCount: cellCount,
@@ -95,7 +96,7 @@ class _IosSystemViewState extends State<IosSystemView>
                     Offset(constraints.maxWidth / 2, constraints.maxHeight / 2);
                 return IntrinsicWidth(
                   child: Container(
-                    margin: const EdgeInsets.only(left: 5, right: 5),
+                    margin: EdgeInsets.only(left: padding, right: padding),
                     child: AppWidgetBox(
                       appName: app.appName,
                       iconPath: app.iconImage,
