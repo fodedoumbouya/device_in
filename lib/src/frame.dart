@@ -157,32 +157,34 @@ class DeviceIn extends StatelessWidget {
     final stack = SizedBox(
       width: isFrameVisible ? frameSize.width : bounds.width,
       height: isFrameVisible ? frameSize.height : bounds.height,
-      child: Stack(
-        children: [
-          if (isFrameVisible)
-            Positioned.fill(
-              key: const Key('frame'),
-              child: CustomPaint(
-                key: ValueKey(device.identifier),
-                painter: device.framePainter,
+      child: Scaffold(
+        body: Stack(
+          children: [
+            if (isFrameVisible)
+              Positioned.fill(
+                key: const Key('frame'),
+                child: CustomPaint(
+                  key: ValueKey(device.identifier),
+                  painter: device.framePainter,
+                ),
+              ),
+            Positioned(
+              key: const Key('Screen'),
+              left: isFrameVisible ? bounds.left : 0,
+              top: isFrameVisible ? bounds.top : 0,
+              width: bounds.width,
+              height: bounds.height,
+              child: ClipPath(
+                clipper: _ScreenClipper(
+                  device.screenPath,
+                ),
+                child: FittedBox(
+                  child: _screen(context, device),
+                ),
               ),
             ),
-          Positioned(
-            key: const Key('Screen'),
-            left: isFrameVisible ? bounds.left : 0,
-            top: isFrameVisible ? bounds.top : 0,
-            width: bounds.width,
-            height: bounds.height,
-            child: ClipPath(
-              clipper: _ScreenClipper(
-                device.screenPath,
-              ),
-              child: FittedBox(
-                child: _screen(context, device),
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
 
