@@ -66,6 +66,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         apps: [
           ...getApplications(),
           ...getApplications(),
+          ...getApplications(),
+          DeviceApplication(
+            appName: 'App 1',
+            isBigWidget: true,
+            appEntry: (controller) {
+              return const Text('App 111');
+            },
+            iconImage: 'assets/appIcons/jufe.png',
+          ),
         ],
         bottomApps: getApplications());
   }
@@ -104,8 +113,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         iconImage: 'assets/appIcons/jufe.png',
       ),
       DeviceApplication(
+        appName: 'App 3',
+        appEntry: (controller) {
+          return Container(
+            color: Colors.green,
+          );
+        },
+        iconImage: 'assets/appIcons/remora.png',
+      ),
+      DeviceApplication(
         appName: 'App 1',
-        isBigWidget: true,
+        isBigWidget: false,
         appEntry: (controller) {
           return GestureDetector(
               onTap: () {
@@ -180,6 +198,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         },
         iconImage: 'assets/appIcons/projectX.png',
       ),
+
       DeviceApplication(
         appName: 'App 3',
         appEntry: (controller) {

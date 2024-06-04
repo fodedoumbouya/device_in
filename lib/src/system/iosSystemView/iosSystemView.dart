@@ -50,12 +50,17 @@ class _IosSystemViewState extends State<IosSystemView>
       };
       if (score > 24) {
         score = score - 24;
+
+        /// sort it to have the big widgets first
+        currentPage.sort((a, b) => a.isBigWidget ? -1 : 1);
         pages.add(_pageGridViewArrangement(apps: currentPage));
         currentPage = [];
       }
       currentPage.add(app);
     }
     if (currentPage.isNotEmpty) {
+      /// sort it to have the big widgets first
+      currentPage.sort((a, b) => a.isBigWidget ? -1 : 1);
       pages.add(_pageGridViewArrangement(apps: currentPage));
     }
 
@@ -282,7 +287,7 @@ class _IosSystemViewState extends State<IosSystemView>
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 70, left: 20, right: 20),
+              padding: const EdgeInsets.only(top: 70, left: 0, right: 0),
               child: ScrollConfiguration(
                 behavior:
                     ScrollConfiguration.of(context).copyWith(dragDevices: {
@@ -396,7 +401,6 @@ class _IosSystemViewState extends State<IosSystemView>
                     right: 0,
                     duration: const Duration(milliseconds: 500),
                     child: Container(
-                        // height: 150,
                         margin:
                             widget.navigationController.toast.contentPadding ??
                                 const EdgeInsets.all(30),

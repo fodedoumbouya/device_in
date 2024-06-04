@@ -9,7 +9,7 @@ typedef EntryWidgetBuilder = Widget Function(
 
 class DeviceApplication {
   /// [appName] is a string that holds the name of the application.
-  String? appName;
+  String appName;
 
   /// [appNameStyle] is a TextStyle that holds the style of the application name.
   /// Default is TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w500).
@@ -33,17 +33,23 @@ class DeviceApplication {
   /// If true, the widget is big, else it is small.
   final bool isBigWidget;
   DeviceApplication({
-    this.appName,
+    required this.appName,
     this.appEntry,
     this.onTap,
     this.appNameStyle,
     this.iconImage,
     this.iconImageWidget,
     this.isBigWidget = false,
-  })  : assert(iconImage != null || iconImageWidget != null,
-            "iconImage and iconImageWidget can't be null at the same time"),
-        assert(appEntry != null || onTap != null,
-            "appEntry and onTap can't be null at the same time"),
-        assert(appName == null || iconImage == null || iconImageWidget == null,
-            "appName, iconImage and iconImageWidget can't be null at the same time");
+  })  :
+
+        ///   "iconImage and iconImageWidget can't be use at the same time" ,  "appEntry and onTap can't be null at the same time", "appName, iconImage and iconImageWidget can't be null at the same time"
+
+        assert(
+            (iconImage != null && iconImageWidget == null) ||
+                (iconImage == null && iconImageWidget != null),
+            "iconImage and iconImageWidget can't be use at the same time"),
+        assert(
+            (appEntry != null && onTap == null) ||
+                (appEntry == null && onTap != null),
+            "appEntry and onTap can't be null at the same time");
 }
