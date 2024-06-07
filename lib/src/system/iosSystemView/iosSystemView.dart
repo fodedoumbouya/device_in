@@ -294,6 +294,28 @@ class _IosSystemViewState extends State<IosSystemView>
         },
         child: Stack(
           children: [
+            if (widget.navigationController.showFlutterText)
+              const Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 125),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Made with Flutter ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: Colors.white70),
+                      ),
+                      ColorFiltered(
+                        colorFilter: ColorFilter.mode(
+                            Colors.white70, BlendMode.modulate),
+                        child: FlutterLogo(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             Padding(
               padding: const EdgeInsets.only(top: 70, left: 0, right: 0),
               child: ScrollConfiguration(

@@ -31,12 +31,16 @@ class DeviceNavigationController {
   /// [_currentAppOpen] is a string that holds the current application that is open.
   String _currentAppOpen = "";
 
+  /// The flag for showing the Flutter text.
+  bool showFlutterText;
+
   /// [DeviceNavigationController] is a factory constructor that creates an instance of [DeviceNavigationController].
   /// [apps] is a list of applications that are available in the system view.
   /// [bottomApps] is a list of applications that are available on the bottom bar in the system view.
   /// [deviceBackgroundImage] is a string that holds the path to the background image of the device.
   /// ```dart
   /// DeviceNavigationController(
+  /// showFlutterText: true,
   ///  apps: [
   ///   DeviceApplication(
   ///    appName: 'Flutter',
@@ -71,12 +75,13 @@ class DeviceNavigationController {
     required List<DeviceApplication> apps,
     List<DeviceApplication> bottomApps = const [],
     required String deviceBackgroundImage,
+    bool showFlutterText = true,
   }) {
     return DeviceNavigationController._internal(
-      apps: apps,
-      bottomApps: bottomApps,
-      deviceBackgroundImage: deviceBackgroundImage,
-    );
+        apps: apps,
+        bottomApps: bottomApps,
+        deviceBackgroundImage: deviceBackgroundImage,
+        showFlutterText: showFlutterText);
   }
 
   /// [DeviceNavigationController] is a private constructor that creates an instance of [DeviceNavigationController].
@@ -84,6 +89,7 @@ class DeviceNavigationController {
     required this.apps,
     this.bottomApps = const [],
     required this.deviceBackgroundImage,
+    required this.showFlutterText,
   });
 
   /// [stateChangeStream] is a stream that listens to the state changes in the [DeviceNavigationController].
