@@ -11,16 +11,20 @@ class Devices {
   /// All iOS devices.
   static const ios = IosDevices();
 
+  /// future implementation
+
   /// All macOS devices.
   // static const macOS = MacOSDevices();
 
+  /// future implementation
   // getOnlyMac() {
   //   return MacOSDevices(windowSize: windowSize).macbook;
   // }
 
-  getOnlyIphone() {
-    return ios.iPhone13ProMax;
-  }
+  /// future implementation
+  // getOnlyIphone() {
+  //   return ios.iPhone13ProMax;
+  // }
 
   /// All available devices.
   static List<DeviceInfo> get all => [
