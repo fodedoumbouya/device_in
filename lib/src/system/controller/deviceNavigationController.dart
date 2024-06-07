@@ -32,6 +32,41 @@ class DeviceNavigationController {
   String _currentAppOpen = "";
 
   /// [DeviceNavigationController] is a factory constructor that creates an instance of [DeviceNavigationController].
+  /// [apps] is a list of applications that are available in the system view.
+  /// [bottomApps] is a list of applications that are available on the bottom bar in the system view.
+  /// [deviceBackgroundImage] is a string that holds the path to the background image of the device.
+  /// ```dart
+  /// DeviceNavigationController(
+  ///  apps: [
+  ///   DeviceApplication(
+  ///    appName: 'Flutter',
+  ///   isBigWidget: true,
+  ///  appEntry: (controller) {
+  ///   return FlutterScreen(controller: controller);
+  /// },
+  ///   iconImage: 'assets/flutter.png',
+  /// ),
+  ///   DeviceApplication(
+  ///     appName: 'calendar',
+  ///      isBigWidget: false,
+  ///     appEntry: (controller) {
+  ///       return const Center(child: Text('calendar'));
+  ///     },
+  ///     iconImage: 'assets/calendar.png',
+  /// ),
+  /// bottomApps: [
+  ///   DeviceApplication(
+  ///     appName: 'Safari',
+  ///     isBigWidget: false,
+  ///     appEntry: (controller) {
+  ///       return const Center(child: Text('Safari'));
+  ///     },
+  ///     iconImage: 'assets/safari.png',
+  /// ),
+  /// ],
+  /// deviceBackgroundImage: "assets/iphone_wal.png",
+  /// )
+  /// ```
   factory DeviceNavigationController({
     required List<DeviceApplication> apps,
     List<DeviceApplication> bottomApps = const [],
@@ -58,7 +93,7 @@ class DeviceNavigationController {
       StreamController<DeviceNavigationControllerState>.broadcast();
 
   /// [stateChange] is a method that adds the state change to the stream.
-  void stateChange(DeviceNavigationControllerState state) {
+  void _stateChange(DeviceNavigationControllerState state) {
     _stateChangeStreamController.add(state);
   }
 
@@ -75,7 +110,7 @@ class DeviceNavigationController {
     };
 
     _applicationsStates[_currentAppOpen]!.add(widget);
-    stateChange(state);
+    _stateChange(state);
   }
 
   /// [goBack] is a method that navigates back to the previous widget.
@@ -92,7 +127,7 @@ class DeviceNavigationController {
       false => DeviceNavigationControllerState.goBack,
     };
 
-    stateChange(state);
+    _stateChange(state);
   }
 
   /// [goBackToRoot] is a method that navigates back to the root widget.
@@ -103,7 +138,7 @@ class DeviceNavigationController {
     } else {
       _applicationsStates[_currentAppOpen]!.clear();
     }
-    stateChange(DeviceNavigationControllerState.goBackToRoot);
+    _stateChange(DeviceNavigationControllerState.goBackToRoot);
   }
 
   /// [getCurrentApp] is a method that returns the current application that is open.

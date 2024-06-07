@@ -1,35 +1,16 @@
 import 'package:device_in/src/system/controller/deviceNavigationController.dart';
 import 'package:device_in/src/system/iosSystemView/iosSystemView.dart';
 import 'package:device_in/src/utils/deviceInfo.dart';
-import 'package:device_in/src/utils/identifier.dart';
 import 'package:flutter/material.dart';
 
-/// Simulate a physical device and embedding a virtual
-/// [screen] into it.
+/// The [DeviceIn.identifier] constructor loads an SVG file from assets to get device frame visuals and device info.
+/// Use the [DeviceIn.info] constructor to preload the device info instead.
 ///
-/// The [screen] media query's `padding`, `devicePixelRatio`, `size` are also
-/// simulated from the device's info by overriding the default values.
-///
-/// The [screen]'s [Theme] will also have the `platform` of the simulated device.
-///
-/// Using the [DeviceIn.identifier] constructor will load an
-/// svg file from assets first to get device frame visuals, but also
-/// device info.
-///
-/// To preload the info, the [DeviceIn.info] constructor can be
-/// used instead.
-///
-/// See also:
-///
-/// * [Devices] to get all available devices.
+/// See [Devices] for a list of available devices.
 ///
 class DeviceIn extends StatelessWidget {
   /// The screen that should be inserted into the simulated
   /// device.
-  ///
-  /// It is cropped with the device screen shape and its size
-  /// is the [info]'s screensize.
-  // final Widget? screen;
 
   /// [DeviceNavigationController] is a controller that helps to navigate between different applications
   /// and keep track of the current state of the application. It is used to manage the navigation between applications
@@ -38,11 +19,6 @@ class DeviceIn extends StatelessWidget {
   /// All information related to the device.
   final DeviceInfo device;
 
-  /// The current frame simulated orientation.
-  ///
-  /// It will also affect the media query.
-  final Orientation orientation;
-
   /// Indicates whether the device frame is visible, else
   /// only the screen is displayed.
   final bool isFrameVisible;
@@ -50,22 +26,20 @@ class DeviceIn extends StatelessWidget {
   /// [deviceOccupySize] is the size of the device in the screen
   final double? deviceOccupySize;
 
-  /// Displays the given [screen] into the given [info]
-  /// simulated device.
-  ///
-  /// The orientation of the device can be updated if the frame supports
-  /// it (else it is ignored).
-  ///
-  /// If [isFrameVisible] is `true`, only the [screen] is displayed, but clipped with
-  /// the device screen shape.
+  /// example:
+  /// ```dart
+  /// DeviceIn(
+  ///  device: Devices.ios.iPhone13ProMax,
+  /// deviceNavigationController: navigationController,
+  /// )
+  /// ```
+  /// [DeviceIn] is a widget that displays a device frame with a screen inside it.
   const DeviceIn({
     super.key,
     required this.device,
-    // this.screen,
-    required this.deviceNavigationController,
-    this.orientation = Orientation.portrait,
-    this.isFrameVisible = true,
     this.deviceOccupySize,
+    this.isFrameVisible = true,
+    required this.deviceNavigationController,
   });
 
   /// Creates a [MediaQuery] from the given device [info], and for the current device [orientation].
@@ -74,17 +48,13 @@ class DeviceIn extends StatelessWidget {
   static MediaQueryData mediaQuery({
     required BuildContext context,
     required DeviceInfo? info,
-    required Orientation orientation,
   }) {
     final mediaQuery = MediaQuery.of(context);
-    final isRotated = info?.isLandscape(orientation) ?? false;
-    final viewPadding = isRotated
-        ? (info?.rotatedSafeAreas ?? info?.safeAreas)
-        : (info?.safeAreas ?? mediaQuery.padding);
+    final viewPadding = (info?.safeAreas ?? mediaQuery.padding);
 
     final screenSize = info != null ? info.screenSize : mediaQuery.size;
-    final width = isRotated ? screenSize.height : screenSize.width;
-    final height = isRotated ? screenSize.width : screenSize.height;
+    final width = screenSize.width;
+    final height = screenSize.height;
 
     return mediaQuery.copyWith(
       size: Size(width, height),
@@ -104,29 +74,25 @@ class DeviceIn extends StatelessWidget {
 
   Widget _screen(BuildContext context, DeviceInfo? info) {
     final mediaQuery = MediaQuery.of(context);
-    final isRotated = info?.isLandscape(orientation) ?? false;
+    // final isRotated = info?.isLandscape(orientation) ?? false;
     final screenSize = info != null ? info.screenSize : mediaQuery.size;
-    final width = isRotated ? screenSize.height : screenSize.width;
-    final height = isRotated ? width : screenSize.height;
+    final width = screenSize.width;
+    final height = screenSize.height;
     final screen = switch (device.identifier.platform == TargetPlatform.iOS) {
       true => IosSystemView(navigationController: deviceNavigationController),
       false => _notSupport,
     };
-    return RotatedBox(
-      quarterTurns: isRotated ? 1 : 0,
-      child: SizedBox(
-        width: width,
-        height: height,
-        child: MediaQuery(
-          data: DeviceIn.mediaQuery(
-            info: info,
-            orientation: orientation,
-            context: context,
-          ),
-          child: Theme(
-            data: _theme(context),
-            child: screen,
-          ),
+    return SizedBox(
+      width: width,
+      height: height,
+      child: MediaQuery(
+        data: DeviceIn.mediaQuery(
+          info: info,
+          context: context,
+        ),
+        child: Theme(
+          data: _theme(context),
+          child: screen,
         ),
       ),
     );
@@ -186,16 +152,11 @@ class DeviceIn extends StatelessWidget {
       ),
     );
 
-    final isRotated = device.isLandscape(orientation);
-
     return SizedBox(
       width: screenSize.width,
       height: screenSize.height,
       child: FittedBox(
-        child: RotatedBox(
-          quarterTurns: isRotated ? -1 : 0,
-          child: stack,
-        ),
+        child: stack,
       ),
     );
   }

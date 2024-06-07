@@ -1,15 +1,15 @@
 // ignore_for_file: invalid_use_of_protected_member
 
-import 'package:flutter/cupertino.dart';
+import 'package:device_in/src/utils/mesureWidgetSize.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../controller/deviceNavigationController.dart';
 import '../model/enum.dart';
 import '../model/deviceApplication.dart';
 import 'widgets/appWidgetBox.dart';
+import 'widgets/boxInnerShadow.dart';
 
 class IosSystemView extends StatefulWidget {
   final DeviceNavigationController navigationController;
@@ -28,6 +28,12 @@ class _IosSystemViewState extends State<IosSystemView>
   final appOpen = ValueNotifier<Widget>(const SizedBox.shrink());
   Offset localPositionl = Offset.zero;
   final isAppOpen = ValueNotifier(false);
+
+  /// toast height
+  double toastHeight = 100;
+
+  /// background image provider
+  ImageProvider<Object>? bgImage;
 
   /// explaination:
   /// we will have a list of apps and we have to separate them into pages
@@ -151,8 +157,6 @@ class _IosSystemViewState extends State<IosSystemView>
     });
     super.initState();
   }
-
-  ImageProvider<Object>? bgImage;
 
   void loadBackground() {
     final src = widget.navigationController.deviceBackgroundImage;
@@ -398,77 +402,64 @@ class _IosSystemViewState extends State<IosSystemView>
               valueListenable: widget.navigationController.toast.showToast,
               builder: (context, dialogOpen, child) {
                 return AnimatedPositioned(
-                    top: dialogOpen
-                        ? 10
-                        : -MediaQuery.of(context).size.height / 2,
+                    top: dialogOpen ? 10 : -(toastHeight + 10),
                     left: 0,
                     right: 0,
-                    duration: const Duration(milliseconds: 500),
-                    child: Container(
-                        margin:
-                            widget.navigationController.toast.contentPadding ??
+                    duration: const Duration(milliseconds: 300),
+                    child: MeasureSize(
+                      onChange: (size) {
+                        toastHeight = size.height;
+                      },
+                      child: InnerShadow(
+                        color: Colors.black12,
+                        child: Container(
+                            margin: widget.navigationController.toast
+                                    .contentPadding ??
                                 const EdgeInsets.all(30),
-                        padding: const EdgeInsets.all(20),
-                        decoration: widget
-                                .navigationController.toast.toastDecoration ??
-                            BoxDecoration(
-                              color: const Color.fromARGB(255, 228, 227, 224),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child:
-                                    widget.navigationController.toast.leading ??
-                                        const SizedBox.shrink()),
-                            Expanded(
-                                flex: 3,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    widget.navigationController.toast.title ??
-                                        const SizedBox.shrink(),
-                                    widget.navigationController.toast.content ??
-                                        const SizedBox.shrink(),
+                            padding: const EdgeInsets.all(20),
+                            decoration: widget.navigationController.toast
+                                    .toastDecoration ??
+                                BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: const Offset(0, 3),
+                                    ),
                                   ],
-                                )),
-                            widget.navigationController.toast.trailing ??
-                                const SizedBox.shrink(),
-                          ],
-                        )
-
-                        // ListTile(
-                        //   titleAlignment: ListTileTitleAlignment.center,
-                        //   contentPadding: widget
-                        //       .windowsManagementController.toast.contentPadding,
-                        //   leading: widget.windowsManagementController.toast.leading,
-                        //   title: widget.windowsManagementController.toast.title,
-                        //   subtitle:
-                        //       widget.windowsManagementController.toast.content,
-                        //   trailing:
-                        //       widget.windowsManagementController.toast.trailing,
-                        // ),
-                        ));
-
-                // Container(
-                //   width: MediaQuery.of(context).size.width,
-                //   height: 70,
-                //   margin: const EdgeInsets.all(30),
-                //   decoration:
-                //       widget.navigationController.toast.toastDecoration ??
-                //           BoxDecoration(
-                //             color: const Color.fromARGB(255, 228, 227, 224),
-                //             borderRadius: BorderRadius.circular(30),
-                //           ),
-                //   child: ListTile(
-                //     leading: widget.navigationController.toast.leading,
-                //     title: widget.navigationController.toast.title,
-                //     subtitle: widget.navigationController.toast.content,
-                //     trailing: widget.navigationController.toast.trailing,
-                //   ),
-                // ));
+                                ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: widget.navigationController.toast
+                                            .leading ??
+                                        const SizedBox.shrink()),
+                                Expanded(
+                                    flex: 3,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        widget.navigationController.toast
+                                                .title ??
+                                            const SizedBox.shrink(),
+                                        widget.navigationController.toast
+                                                .content ??
+                                            const SizedBox.shrink(),
+                                      ],
+                                    )),
+                                widget.navigationController.toast.trailing ??
+                                    const SizedBox.shrink(),
+                              ],
+                            )),
+                      ),
+                    ));
               },
             )
           ],
