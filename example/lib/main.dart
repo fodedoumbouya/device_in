@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
       /// [deviceBackgroundImage] is a string that holds the path to the background image of the device.
       /// supported network images and assets images.
-      deviceBackgroundImage: "assets/iphone_wal.png",
+      // deviceBackgroundImage: "assets/iphone_wal.png",
 
       /// [apps] is a list of [DeviceApplication] that holds the applications that are displayed on the device.
       apps: [

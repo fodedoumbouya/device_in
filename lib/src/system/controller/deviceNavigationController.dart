@@ -74,7 +74,7 @@ class DeviceNavigationController {
   factory DeviceNavigationController({
     required List<DeviceApplication> apps,
     List<DeviceApplication> bottomApps = const [],
-    required String deviceBackgroundImage,
+    String deviceBackgroundImage = "packages/device_in/assets/iphone_wal.png",
     bool showFlutterText = true,
   }) {
     return DeviceNavigationController._internal(
