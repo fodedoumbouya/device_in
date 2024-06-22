@@ -1,5 +1,6 @@
 
-![Logo](https://github.com/fodedoumbouya/os_ui/assets/47141813/633a53c3-9a96-4240-b40a-105ae74fd9ea)
+![Logo](https://github.com/fodedoumbouya/device_in/assets/47141813/7a3641f0-d277-4c56-a8c6-671246f82a3e)
+
 
 
 
@@ -13,18 +14,21 @@ All the functions are ready include in the package such as:
 
 
 
-![App Screenshot](https://github.com/fodedoumbouya/os_ui/assets/47141813/1398cc6c-af28-4191-b798-7cec1473a636)
-
+![App Screenshot](https://github.com/fodedoumbouya/device_in/assets/47141813/9ee88795-acaa-464b-bf1c-e314520d17ae)
 
 
 ## Demo
-https://github.com/fodedoumbouya/os_ui/assets/47141813/524dd1df-544a-4bdd-96ed-fce284d64608
+
+
+https://github.com/fodedoumbouya/device_in/assets/47141813/34d41b57-da68-4ab4-9d88-007ef95aea0b
+
+
 
 
 
 See real examples:
 
-* <https://github.com/fodedoumbouya/os_ui/tree/main/example>
+* <https://github.com/fodedoumbouya/device_in/tree/main/example>
 
 ## Table of contents
 
