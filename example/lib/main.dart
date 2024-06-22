@@ -95,7 +95,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           children: <Widget>[
             DeviceIn(
               device: Devices.ios.iPhone13ProMax,
-              deviceOccupySize: 900,
+
+              /// [deviceOccupySize] is the size of the device in the screen
+              // deviceOccupySize: 900,
               deviceNavigationController: navigationController,
             ),
           ],
