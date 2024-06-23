@@ -21,8 +21,6 @@ All the functions are ready include in the package such as:
 
 ![demo](https://github.com/fodedoumbouya/device_in/assets/47141813/77b0fe56-6719-4675-b44a-77b469c6014a)
 
-https://github.com/fodedoumbouya/device_in/assets/47141813/34d41b57-da68-4ab4-9d88-007ef95aea0b
-
 
 
 
