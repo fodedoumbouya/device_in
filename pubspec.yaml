@@ -1,7 +1,7 @@
 name: device_in
-description: "A new Flutter package project."
-version: 0.0.1
-homepage:
+description: "device_in helps you to showcase your project or play with Mobile OS interface for any kind of projects."
+version: 1.0.0
+homepage: "https://github.com/fodedoumbouya/device_in"
 
 environment:
   sdk: ">=3.3.4 <4.0.0"
