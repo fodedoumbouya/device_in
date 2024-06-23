@@ -1,7 +1,8 @@
 name: device_in
 description: "device_in helps you to showcase your project or play with Mobile OS interface for any kind of projects."
-version: 1.0.0
+version: 1.0.1
 homepage: "https://github.com/fodedoumbouya/device_in"
+publish_to:
 
 environment:
   sdk: ">=3.3.4 <4.0.0"
